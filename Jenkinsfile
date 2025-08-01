@@ -1,32 +1,18 @@
 pipeline {
     agent any
-
     tools {
-        sonarScanner 'SonarScanner'
+        sonarqubeScanner 'SonarScanner'
     }
-
-    environment {
-        SONAR_HOST_URL = 'http://13.235.133.35/:9000'
-        SONAR_AUTH_TOKEN = credentials('sonar-token') // ID from Jenkins credentials
-    }
-
     stages {
-        stage('SonarQube Scan') {
+        stage('Checkout') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'sonar-scanner \
-                        -Dsonar.projectKey=demo \
-                        -Dsonar.sources=src \
-                        -Dsonar.host.url=$SONAR_HOST_URL \
-                        -Dsonar.login=$SONAR_AUTH_TOKEN'
-                }
+                git branch: 'main', url: 'https://github.com/haroonrt/jenkins-ci.git'
             }
         }
-
-        stage('Quality Gate') {
+        stage('SonarQube Analysis') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                withSonarQubeEnv('SonarQube-Server') {
+                    sh 'sonar-scanner -Dsonar.projectKey=your-project-key -Dsonar.projectName="Your Project" -Dsonar.projectVersion=1.0 -Dsonar.sources=. -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
                 }
             }
         }
