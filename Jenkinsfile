@@ -19,7 +19,13 @@ pipeline {
                 }
             }
         }
-
+    
+        stage('Test Docker') {
+            steps {
+                sh 'docker version'
+            }
+        }
+        
         stage('Docker Login') {
             steps {
                 withCredentials([usernamePassword(credentialsId: env.DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
