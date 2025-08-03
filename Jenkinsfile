@@ -5,10 +5,6 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'docker-hub-creds'
     }
 
-    tools {
-        sonarScanner = 'SonarScanner'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -51,3 +47,4 @@ pipeline {
         }
     }
 }
+
