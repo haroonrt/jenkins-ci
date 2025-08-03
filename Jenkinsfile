@@ -19,12 +19,6 @@ pipeline {
                 }
             }
         }
-    
-        stage('Test Docker') {
-            steps {
-                sh 'docker version'
-            }
-        }
         
         stage('Docker Login') {
             steps {
